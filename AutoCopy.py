@@ -9,7 +9,7 @@ import pandas as pd # import pandas module
 4. Excel 檔可以輸出成 CSV 檔，直接加入 anki
 '''
 
-year = 112-1 # 定義國考年份
+year = '112-1' # 定義國考年份
 
 def CollectQuestion(year): # 定義函數回傳整份試題為字串
     reader = PyPDF2.PdfReader(year+'-Hema-Q.pdf') # 讀取 PDF 檔案
@@ -49,10 +49,16 @@ def ProcessAnswer(year): # 定義函數回傳整份答案為 List
 def ConstructData(List, Data1): # 定義函數將 List 和 Data1 輸出成 Excel 檔
     wb = xw.Book('Data.xlsx') # 開啟 Excel 檔案
     sheet = wb.sheets('Hema') # 開啟 Excel 檔案中的 Hema 工作表
-    for i in range(80): # 80 題迴圈
-        col = i + 2 # 定義 col 為第幾列
+    for i in range(79): # 80 題迴圈
+        col = i + 1 # 定義 col 為第幾列
         sheet['A' + str(col)].value = List[i] # 將題目加入 Excel 檔案
         sheet['B' + str(col)].value = Data1[i] # 將答案加入 Excel 檔案
         sheet['C' + str(col)].value = year # 將年份加入 Excel 檔案
 
 ConstructData(ProcessQuestion(CollectQuestion(year)),ProcessAnswer(year)) # 執行函數
+
+# pandas 讀取 Excel 檔案
+wb = xw.Book('Data.xlsx')
+sheet = wb.sheets('Hema').used_range.value
+df = pd.DataFrame(sheet)
+print(df) # 印出 DataFrame
