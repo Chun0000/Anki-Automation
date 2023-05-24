@@ -34,7 +34,7 @@ def ProcessQuestion(Data):  # 定義函數回傳整份試題為 List
             n1 = Whole_Test.find(str(i+1)+".") # n1 為題號的位置（尋找 "1."）
         else:
             pass # 否則不做事
-        List.append(Whole_Test[n1:n2-1]) # 將題目加入 List（每個元素是一題）
+        List.append(Whole_Test[n1:n2-1].strip('\n')) # 將題目加入 List（每個元素是一題）
     return List
 
 def ProcessAnswer(year): # 定義函數回傳整份答案為 List
@@ -46,6 +46,14 @@ def ProcessAnswer(year): # 定義函數回傳整份答案為 List
     Data1 = Data1.replace("\n題號\n答案", "") # 刪除 "\n題號\n答案"
     return Data1 # 回傳字串
 
+
+def BuildDataFrame(List, Data1): #建立 DataFrame
+    df = pd.DataFrame(columns=['Question', 'Answer', 'Year'])
+    for i in range(79): # 80 題迴圈
+        now_row = pd.Series([List[i], Data1[i], year], index=['Question', 'Answer', 'Year'])
+        df = pd.concat([df, now_row.to_frame().T], ignore_index=True)  
+    return df
+
 def ConstructData(List, Data1): # 定義函數將 List 和 Data1 輸出成 Excel 檔
     wb = xw.Book('Data.xlsx') # 開啟 Excel 檔案
     sheet = wb.sheets('Hema') # 開啟 Excel 檔案中的 Hema 工作表
@@ -55,10 +63,4 @@ def ConstructData(List, Data1): # 定義函數將 List 和 Data1 輸出成 Excel
         sheet['B' + str(col)].value = Data1[i] # 將答案加入 Excel 檔案
         sheet['C' + str(col)].value = year # 將年份加入 Excel 檔案
 
-ConstructData(ProcessQuestion(CollectQuestion(year)),ProcessAnswer(year)) # 執行函數
-
-# pandas 讀取 Excel 檔案
-wb = xw.Book('Data.xlsx')
-sheet = wb.sheets('Hema').used_range.value
-df = pd.DataFrame(sheet)
-print(df) # 印出 DataFrame
+BuildDataFrame(ProcessQuestion(CollectQuestion(year)),ProcessAnswer(year))
