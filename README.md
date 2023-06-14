@@ -19,7 +19,7 @@ source activate {env-name}
 3. install package
 
 ```shell
-conda install pypdf2 pandas
+conda install pypdf2 pandas "pymongo[srv]"
 ```
 
 > **Deavtivate Virual Environment**
