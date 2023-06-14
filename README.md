@@ -2,10 +2,28 @@
 
 國考題庫建立
 
-# Package Version
+## How to run this project?
 
-- python 3.10
+1. Create Virual Environment
 
-# Environment
+```shell
+conda create -n {env-name} python=3.10
+```
 
-- y
+2. Activate Viral Environment
+
+```shell
+source activate {env-name}
+```
+
+3. install package
+
+```shell
+conda install pypdf2 pandas
+```
+
+> **Deavtivate Virual Environment**
+>
+> ```shell
+> source deactivate
+> ```
