@@ -3,7 +3,7 @@ import re
 
 def jsonConvertor():
     f = open(
-        '/Users/chun/Documents/GitHub/mtexam-data-processing/database/pathology.txt', 'r')
+        '/Users/chun/Documents/GitHub/mtexam-data-processing/database/mole.txt', 'r')
     dict_all_questions = []
 
     for i in f.readlines():
@@ -17,8 +17,11 @@ def jsonConvertor():
         template["B"] = result[2]
         template["C"] = result[3]
         template["D"] = result[4]
-        template["answer"] = L[1].split()
+        template["answer"] = L[1].split()[:3]
         template['year'] = L[2].strip("\n")
         dict_all_questions.append(template)
 
     return dict_all_questions
+
+
+jsonConvertor()

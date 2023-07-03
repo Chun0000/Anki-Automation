@@ -2,7 +2,7 @@ from mtexam_get_database import get_database
 from json_convert import jsonConvertor
 
 mydb = get_database()
-name = "path"
+name = "molecular"
 # subjects = [
 #   { id: "path", 'name': "病理學" },
 #   { id: "micro", name: "臨床細菌學與黴菌學" },
